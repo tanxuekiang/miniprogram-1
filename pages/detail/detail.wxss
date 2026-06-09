@@ -1,0 +1,43 @@
+.detail-box {
+  padding: 30rpx;
+}
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+.avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+.info-right {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+.username {
+  font-size: 28rpx;
+  color: #666;
+}
+.type {
+  font-size: 24rpx;
+  color: #999;
+}
+.line {
+  height: 1rpx;
+  background: #eee;
+  margin: 20rpx 0;
+}
+.content {
+  font-size: 30rpx;
+  line-height: 1.6;
+  color: #333;
+}

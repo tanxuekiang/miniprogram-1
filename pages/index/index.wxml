@@ -1,0 +1,90 @@
+<view class="page">
+
+<!-- 顶部：圆形功能图标 + 自动换行 -->
+<swiper class="windowsshow" autoplay circular indicator-dots indicator-color="#fff" indicator-active-color="#1677ff">
+<swiper-item>
+<image src="/image/1.png" class="appwindows" mode="widthFix" >
+</image>
+</swiper-item>
+<swiper-item>
+<image src="/image/2.png" class="appwindows" mode="widthFix" >
+</image>
+</swiper-item>
+<swiper-item>
+<image src="/image/1.png" class="appwindows" mode="widthFix" >
+</image>
+</swiper-item>
+</swiper>
+<!-- 
+<view class="top-icons">
+  <view class="icon-item" bindtap="getcomplice">
+    <view class="circle">🖼</view>
+    <text>服务商列表</text>
+  </view>
+  
+  <view class="icon-item" bindtap="getcard">
+    <view class="circle">➕</view>
+    <text>资质办理</text>
+  </view>
+  <view class="icon-item" bindtap="flowcomponic">
+    <view class="circle">🖼</view>
+    <text>公司转让</text>
+  </view>
+  <view class="icon-item" bindtap="recoedatax">
+    <view class="circle">🎬</view>
+    <text>记账报税</text>
+  </view>
+  <view class="icon-item" bindtap="finance">
+    <view class="circle">📌</view>
+    <text>企业助贷</text>
+  </view>
+  <view class="icon-item" bindtap="interation">
+    <view class="circle">👤</view>
+    <text>跨境业务</text>
+  </view>
+  <view class="icon-item" bindtap="hardbussice">
+    <view class="circle">🔍</view>
+    <text>其它业务</text>
+  </view>
+
+  <view class="icon-item" bindtap="vip">
+    <view class="circle">⚙️</view>
+    <text>待开发</text>
+  </view>
+
+</view>
+-->
+<!-- 下面：帖子内容 -->
+<view class="content-list">
+  <view class="post" wx:for="{{postList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="user">
+      <!-- 修复1：头像字段改为 item.avatar -->
+      <image src="{{item.avatar}}" class="avatar"></image>
+      <!-- 修复2：名称字段改为 item.username -->
+      <text class="name">{{item.username}}</text>
+    </view>
+    <view class="tyty"><span class="color-text">{{item.tietype}}</span></view>
+    <view class="title">{{item.title}}</view>
+    <view class="text">{{item.content}}</view>
+  </view>
+</view>
+<view class="footer">
+
+  <view class="item" bindtap="Home">
+    <view class="bottomtap">🏠</view>
+  <text>主页</text>
+</view>
+
+
+
+<view class="item big" bindtap="pushorder">
+  <view class="bottomtap">发单</view>
+</view>
+
+<view class="item" bindtap="personcenter">
+  <view class="bottomtap">👤</view>
+  <text>个人中心</text>
+</view>
+
+</view>
+</view>

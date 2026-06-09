@@ -1,0 +1,25 @@
+<view class="container">
+
+<view wx:if="{{islogin}}">
+  <view class="user-card">
+    <image src="{{userInfo.avatar}}" class="avatar" bindtap="chooseAvatar"></image>
+    <text class="nickname">{{userInfo.nickname}}</text>
+    
+  </view>
+  <button class="login-btn" bindtap="relogin">重新登录或注册</button>
+</view>
+
+<view wx:else>
+  <view class="user-card">
+    <image src="{{avatar}}" class="avatar" bindtap="chooseAvatar"></image>
+  <input placeholder="昵称" bindinput="inputNickname" />
+  </view>
+  <input placeholder="账号" bindinput="inputUsername" />
+  <input placeholder="密码" password bindinput="inputPassword" />
+  <!-- 登录按钮 + 专属class -->
+  <button class="login-btn" bindtap="login">登录</button>
+  <!-- 注册按钮 + 专属class -->
+  <button class="register-btn" bindtap="register">注册</button>
+</view>
+
+</view>

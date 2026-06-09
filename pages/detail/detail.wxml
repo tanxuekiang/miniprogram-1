@@ -1,0 +1,20 @@
+<view class="detail-box">
+  <!-- 帖子标题 -->
+  <view class="user-info">
+    <image src="{{post.avatar}}" class="avatar"></image>
+    <view class="info-right">
+      <text class="username">{{post.username}}</text>
+      <text class="type">类型：{{post.tietype}}</text>
+    </view>
+  </view>
+  <view class="title">{{post.title}}</view>
+
+  <!-- 用户信息 + 帖子类型 -->
+
+
+  <!-- 分割线 -->
+  <view class="line"></view>
+
+  <!-- 帖子内容 -->
+  <view class="content">{{post.content}}</view>
+</view>

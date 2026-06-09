@@ -1,0 +1,61 @@
+/* pages/add/add.wxss */
+.add-box {
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+.add-box {
+  padding: 30rpx;
+}
+.type-item.active {
+  border-color: #07c160;
+  background: #07c160;
+  color: #fff;
+}
+/* 头像样式 */
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #eee;
+  flex-shrink: 0;
+}
+
+/* 昵称样式 */
+.nickname {
+  font-size: 32rpx;
+  color: #333;
+}
+.input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+input, textarea {
+  padding: 20rpx;
+  border: 1px solid #eee;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+.submit-btn {
+  background-color: #FF6700;
+  color: #fff;
+  border-radius: 8rpx;
+  height: 80rpx;
+  font-size: 32rpx;
+}

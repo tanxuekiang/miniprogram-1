@@ -1,0 +1,27 @@
+<view class="add-box">
+  <view class="user-card">
+    <image src="{{userInfo.avatar}}" class="avatar" ></image>
+    <text class="nickname">{{userInfo.nickname}}</text>
+  </view>
+    <!-- 🔥 补全：帖子类型下拉选择器（你缺失的核心UI） -->
+    <view class="input-item">
+    <text class="label">帖子类型：</text>
+    <picker 
+      bindchange="bindTypeChange" 
+      range="{{postTypes}}"
+    >
+      <view class="picker-show">
+        {{selectedType || '请选择帖子类型'}}
+      </view>
+    </picker>
+  </view>
+  <view class="input-item">
+    <text class="label">帖子标题：</text>
+    <input placeholder="请输入标题（必填）" bindinput="inputTitle" value="{{title}}" />
+  </view>
+  <view class="input-item">
+    <text class="label">帖子内容：</text>
+    <textarea placeholder="请输入内容（必填）" bindinput="inputContent" value="{{content}}" rows="10" />
+  </view>
+  <button class="submit-btn" bindtap="submitPost">发布帖子</button>
+</view>
