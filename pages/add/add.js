@@ -8,6 +8,7 @@ Page({
     content: "",
     userInfo:{},
     userId:"",
+    avaUrl:"",
     postTypes: ["资质办理", "公司转让", "记账报税", "企业助贷", "跨境业务", "其它业务"],
     selectedType: "" // 选中的类型
   },
@@ -15,6 +16,14 @@ onLoad()
 {
   this.setData({
     userInfo:app.globalData.userInfo,
+    avaUrl:app.globalData.avaURL,
+    userId:app.globalData.userId
+  });
+},
+onShow() {
+  this.setData({
+    userInfo:app.globalData.userInfo,
+    avaUrl:app.globalData.avaURL,
     userId:app.globalData.userId
   });
 },

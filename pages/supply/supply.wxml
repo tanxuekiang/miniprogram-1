@@ -1,0 +1,76 @@
+<view class="container">
+  <!-- 新增极简搜索栏 -->
+  <view class="search-bar">
+    <view class="search-inner">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索内容" value="{{searchText}}" bindinput="inputSearch" bindconfirm="doSearch"/>
+      <view class="search-btn" bindtap="doSearch">搜索</view>
+    </view>
+  </view>
+
+  <!-- 滚动区域 -->
+  <scroll-view 
+    scroll-y
+    class="scroll-wrap"
+    bindscrolltolower="onReachBottom"
+    lower-threshold="100"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onPullDownRefresh"
+  >
+    <view class="photo-grid">
+      <view 
+        wx:for="{{displayList}}" 
+        wx:key="id"
+        class="photo-card"
+        bindtap="goToDetail"
+        data-item="{{item}}"
+      >
+        <block wx:if="{{item.images && item.images.length > 0}}">
+          <swiper 
+            class="card-swiper"
+            indicator-dots="{{item.images.length > 1}}"
+            circular
+            autoplay="{{true}}"
+            interval="3000"
+            duration="500"
+          >
+            <swiper-item 
+              wx:for="{{item.images}}" 
+              wx:for-item="img" 
+              wx:for-index="imgIndex"
+              wx:key="imgIndex"
+            >
+              <image 
+                src="{{img.image_URL}}" 
+                mode="aspectFill" 
+                class="swiper-image"
+                lazy-load="{{true}}"
+              ></image>
+            </swiper-item>
+          </swiper>
+        </block>
+        <view wx:else class="no-img">暂无图片</view>
+        <view class="text-content">{{item.content}}</view>
+      </view>
+    </view>
+
+    <view class="loading-tip" wx:if="{{loading}}">加载中...</view>
+    <view class="loading-tip" wx:if="{{!hasMore && displayList.length}}">没有更多了...</view>
+  </scroll-view>
+
+  <!-- 底部导航 -->
+  <view class="footer">
+    <view class="item" bindtap="Home">
+      <view class="bottomtap">🏠</view>
+      <text>主页</text>
+    </view>
+    <view class="item center-post-btn" bindtap="goToCreatePost">
+      <view class="post-icon">+</view>
+    </view>
+    <view class="item" bindtap="person">
+      <view class="bottomtap">👤</view>
+      <text>个人中心</text>
+    </view>
+  </view>
+</view>

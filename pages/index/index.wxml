@@ -15,6 +15,52 @@
 </image>
 </swiper-item>
 </swiper>
+<!-- 🔥 新增：搜索框（固定在轮播图下方） -->
+<view class="search-bar">
+  <view class="search-input-wrap">
+    <text class="search-icon">🔍</text>
+    <input 
+      class="search-input"
+      placeholder="搜索帖子、用户、类型"
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+      bindconfirm="onSearch"
+      clearable
+    ></input>
+    <!-- 清空按钮：有输入时显示 -->
+    <text 
+      wx:if="{{searchKeyword}}" 
+      class="clear-icon" 
+      bindtap="clearSearch"
+    >✕</text>
+  </view>
+</view>
+
+<!-- 帖子列表（根据搜索结果显示） -->
+<view class="content-list">
+  <!-- 空状态：搜索无结果 -->
+  <view wx:if="{{isSearching && filteredList.length === 0}}" class="empty-state">
+    <text>暂无搜索结果</text>
+  </view>
+
+  <!-- 正常显示：搜索结果或全部帖子 -->
+  <view 
+    class="post" 
+    wx:for="{{isSearching ? filteredList : postList}}" 
+    wx:key="id" 
+    bindtap="goDetail" 
+    data-id="{{item.id}}"
+  >
+    <view class="user">
+      <image src="{{item.avatar}}" class="avatar"></image>
+      <text class="name">{{item.username}}</text>
+    </view>
+    <view class="tyty"><span class="color-text">{{item.tietype}}</span></view>
+    <view class="title">{{item.title}}</view>
+    <view class="text">{{item.content}}</view>
+  </view>
+</view>
+
 <!-- 
 <view class="top-icons">
   <view class="icon-item" bindtap="getcomplice">
@@ -69,14 +115,14 @@
   </view>
 </view>
 <view class="footer">
-
   <view class="item" bindtap="Home">
     <view class="bottomtap">🏠</view>
   <text>主页</text>
 </view>
-
-
-
+  <view class="item" bindtap="getcomplice">
+    <view class="bottomtap">🔍</view>
+  <text>服务商列表</text>
+</view>
 <view class="item big" bindtap="pushorder">
   <view class="bottomtap">发单</view>
 </view>

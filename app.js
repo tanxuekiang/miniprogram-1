@@ -4,6 +4,7 @@ App({
     userInfo: null,
     openid: "", 
     userId: "",
-    isLogin: false  // 登录状态
+    isLogin: false,  // 登录状态
+    avaURL:""
   }
 })

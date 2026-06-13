@@ -2,18 +2,37 @@
 
 <view wx:if="{{islogin}}">
   <view class="user-card">
-    <image src="{{userInfo.avatar}}" class="avatar" bindtap="chooseAvatar"></image>
-    <text class="nickname">{{userInfo.nickname}}</text>
-    
+      <!-- 头像：点击更换（原有功能保留） -->
+      <image 
+        src="{{userInfo.avatar}}" 
+        class="avatar" 
+        bindtap="chooseAvatar" 
+        mode="aspectFill"
+      ></image>
+      
+      <!-- 昵称：点击进入编辑模式 -->
+      <view class="nickname-wrap">
+        <!-- 编辑模式：输入框 -->
+        <input 
+          wx:if="{{isEditingNickname}}"
+          value="{{editNickname}}"
+          bindinput="onNicknameInput"
+          bindblur="saveNickname"
+          placeholder="请输入昵称"
+          auto-focus
+        ></input>
+        <!-- 显示模式：点击可编辑 -->
+        <text 
+          wx:else
+          class="nickname"
+          bindtap="startEditNickname"
+        >{{userInfo.nickname}}</text>
+      </view>
   </view>
   <button class="login-btn" bindtap="relogin">重新登录或注册</button>
 </view>
 
 <view wx:else>
-  <view class="user-card">
-    <image src="{{avatar}}" class="avatar" bindtap="chooseAvatar"></image>
-  <input placeholder="昵称" bindinput="inputNickname" />
-  </view>
   <input placeholder="账号" bindinput="inputUsername" />
   <input placeholder="密码" password bindinput="inputPassword" />
   <!-- 登录按钮 + 专属class -->

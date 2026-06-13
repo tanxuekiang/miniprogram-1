@@ -1,0 +1,44 @@
+<view class="add-box">
+
+
+  <view class="input-item">
+    <text class="label">公司名称<span class="required">*</span>：</text>
+    <input placeholder="请输入公司名称（必填）" bindinput="inputCompanyName" value="{{title}}" />
+  </view>
+
+  <view class="input-item">
+    <text class="label">联系方式<span class="required">*</span>：</text>
+    <!-- 修复：单独绑定联系方式事件 -->
+    <input placeholder="请输入联系方式（必填）如手机号：13XXXX" bindinput="inputContact" value="{{phone}}" />
+  </view>
+
+  <view class="input-item">
+    <text class="label">业务内容<span class="required">*</span>：</text>
+    <textarea placeholder="可填写业务内容和公司介绍（必填）" bindinput="inputContent" value="{{content}}" rows="10" />
+  </view>
+
+  <!-- 九宫格图片上传区域（必填） -->
+  <view class="input-item">
+    <text class="label">宣传图片<span class="required">*</span>（最多9张）：</text>
+    <view class="image-grid">
+      <view 
+        wx:for="{{imageList}}" 
+        wx:key="index"
+        class="image-item"
+      >
+        <image src="{{item}}" mode="aspectFill" class="image"></image>
+        <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+      </view>
+      <view 
+        wx:if="{{imageList.length < 9}}"
+        class="add-image-btn"
+        bindtap="chooseImages"
+      >
+        <text class="add-icon">+</text>
+        <text class="add-text">{{imageList.length}}/9</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="submit-btn" bindtap="submitPost">发布公司</button>
+</view>

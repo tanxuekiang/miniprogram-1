@@ -1,0 +1,104 @@
+/* pages/add/add.wxss */
+.add-box {
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+  background: #fff;
+  min-height: 100vh;
+}
+
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+input, textarea, .picker {
+  padding: 20rpx;
+  border: 1px solid #eee;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  min-height: 40rpx;
+}
+
+
+
+/* 🔥 新增：九宫格图片样式 */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10rpx;
+  margin-top: 10rpx;
+}
+
+.image-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  line-height: 1;
+}
+
+.add-image-btn {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2rpx dashed #eee;
+  border-radius: 8rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.add-icon {
+  font-size: 60rpx;
+  line-height: 1;
+  margin-bottom: 10rpx;
+}
+
+.add-text {
+  font-size: 24rpx;
+}
+
+.submit-btn {
+  background-color: #FF6700;
+  color: #fff;
+  border-radius: 8rpx;
+  height: 80rpx;
+  font-size: 32rpx;
+  margin-top: 20rpx;
+}
+
+.submit-btn[disabled] {
+  background: #ccc;
+}

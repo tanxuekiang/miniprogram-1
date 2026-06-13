@@ -23,7 +23,23 @@ Page({
     this.loadLocalAvatar();
     this.autologin()
   },
+  startEditNickname() {
+    if (!this.data.islogin) {
+      wx.showToast({ title: "请先登录", icon: "none" });
+      return;
+    }
 
+    // 自动填充当前昵称作为默认值
+    this.setData({
+      isEditingNickname: true,
+      editNickname: this.data.userInfo.nickname
+    });
+  },
+
+  // 监听昵称输入
+  onNicknameInput(e) {
+    this.setData({ editNickname: e.detail.value });
+  },
   // 加载登录状态
   loadLoginStatus() {
     if (app.globalData.isLogin && app.globalData.userInfo) {
@@ -38,55 +54,6 @@ Page({
       this.setData({ islogin: false });
     }
   },
-
-  // -------------- 【核心】加载本地保存的头像 --------------
-  loadLocalAvatar() {
-    const localAvatar = wx.getStorageSync('localAvatar');
-    // 如果本地有保存 → 用保存的；没有 → 默认头像
-    const avatar = localAvatar ? localAvatar : "/images/default-avatar.png";
-
-    this.setData({ avatar });
-
-    // 如果已登录，同步更新到 userInfo
-    if (this.data.islogin) {
-      this.setData({
-        userInfo: {
-          ...this.data.userInfo,
-          avatar: avatar
-        }
-      });
-    }
-  },
-
-  // -------------- 【核心】更换本地头像 --------------
-  chooseAvatar() {
-    wx.chooseMedia({
-      count: 1,
-      mediaType: ['image'],
-      success: (res) => {
-        const path = res.tempFiles[0].tempFilePath;
-
-        // 保存到本地
-        wx.setStorageSync('localAvatar', path);
-
-        // 更新页面显示
-        this.setData({
-          avatar: path,
-          userInfo: {
-            ...this.data.userInfo,
-            avatar: path
-          }
-        });
-
-        wx.showToast({ title: "更换头像成功" });
-      }
-    });
-  },
-
-  // 输入框
-  inputNickname(e) { this.setData({ nickname: e.detail.value }); },
-  inputUsername(e) { this.setData({ username: e.detail.value }); },
-  inputPassword(e) { this.setData({ password: e.detail.value }); },
   uploadavatartoServer(avatar,uuid){
     return new Promise((resolve,reject)=>{
       wx.uploadFile({
@@ -117,21 +84,64 @@ Page({
       })
     })
 },
+  // -------------- 【核心】加载本地保存的头像 --------------
+  loadLocalAvatar() {
+    const localAvatar = wx.getStorageSync('localAvatar');
+    // 如果本地有保存 → 用保存的；没有 → 默认头像
+    const avatar = localAvatar ? localAvatar : "/images/default-avatar.png";
+
+    this.setData({ avatar });
+
+    // 如果已登录，同步更新到 userInfo
+    if (this.data.islogin) {
+      this.setData({
+        userInfo: {
+          ...this.data.userInfo,
+          avatar: avatar
+        }
+      });
+    }
+  },
+
+  // -------------- 【核心】更换本地头像 --------------
+  chooseAvatar() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      success:async(res) => {
+        const path = res.tempFiles[0].tempFilePath;
+        const avatarUrl = await this.uploadavatartoServer(path,app.globalData.userId)
+        // 保存到本地
+        wx.setStorageSync('localAvatar', avatarUrl);
+        console.log(avatarUrl)
+        // 更新页面显示
+        this.setData({
+          avatar: avatarUrl,
+          userInfo: {
+            ...this.data.userInfo,
+            avatar: avatarUrl
+          }
+        });
+        console.log(avatarUrl)
+        app.globalData.avaURL=avatarUrl;
+        wx.showToast({ title: "更换头像成功" });
+      }
+    });
+  },
+
+  // 输入框
+  inputUsername(e) { this.setData({ username: e.detail.value }); },
+  inputPassword(e) { this.setData({ password: e.detail.value }); },
+
 // 注册
 async register() {
-  const { username, password, nickname,avatar } = this.data;
+  const { username, password} = this.data;
   if (!username || !password ) {
     wx.showToast({ title: "请填写完整" });
     return;
   }
   const uuid = 'user_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-  let serverAvatar;
 try{
-  if (avatar === "/images/default-avatar.png") {
-    serverAvatar = "/images/default-avatar.png";
-  } else {
-    serverAvatar = await this.uploadavatartoServer(avatar, uuid);
-  }
 
   wx.request({
   url: "http://1.14.191.54:8888/api/register/",
@@ -139,19 +149,31 @@ try{
   data: { 
     username: username, 
     password: password, 
-    nickname: nickname,
     wechat_user_id: uuid,  
-    openid: uuid,
-    avatar: serverAvatar       
+    openid: uuid ,
+    nickname:username
+
   },
   header: { "Content-Type": "application/x-www-form-urlencoded" },
   success: (res) => {
-    wx.showToast({ title: res.data.msg });
+    wx.showToast({
+      title: res.data.msg,
+      icon: "success"// 明确指定显示时间
+    });
+  
+
     console.log(res.data); // 看返回结果
+    
+    setTimeout(() => {
+      this.login(); // 只调用一次登录
+    }, 3000);
+  
+    
   },  
   fail: () => {
     wx.showToast({ title: res.data.msg });
     console.log(res.data); // 看返回结果
+ 
   }
 });}catch(error)
 {
@@ -172,27 +194,28 @@ try{
       success: (res) => {
         if (res.data.code === 0) {
           // 读取本地保存的头像
-          const localAvatar = wx.getStorageSync('localAvatar') || "/images/default-avatar.png";
-
+    
           const userInfo = {
             ...res.data.data,
-            nickname: res.data.data.nickname, 
-            avatar: localAvatar // 头像来自本地
           };
+          // ✅ 核心：登录成功后，保存所有用户信息到本地存储
+          // 永久保存，关闭小程序再打开依然存在
+          wx.setStorageSync('cache_username', username); // 账号
+          wx.setStorageSync('cache_password', password); // 密码（用于自动登录）
+          wx.setStorageSync('cache_nickname', userInfo.nickname); // 昵称
+          wx.setStorageSync('cache_userId', userInfo.wechat_user_id); // 用户ID
+          wx.setStorageSync('cache_openid', userInfo.openid); // openid
 
-          // 保存全局
+          // 保存全局状态
           app.globalData.isLogin = true;
           app.globalData.userInfo = userInfo;
-          app.globalData.userId = res.data.data.wechat_user_id;
-          app.globalData.openid = res.data.data.openid;
-          wx.setStorageSync('cache_username', username);
-          wx.setStorageSync('cache_password', password);
+          app.globalData.userId = userInfo.wechat_user_id;
+          app.globalData.openid = userInfo.openid;
           this.setData({
             islogin: true,
             userInfo: userInfo,
             userId: res.data.data.wechat_user_id,
-            openid: res.data.data.openid,
-            nickname: res.data.data.nickname
+            openid: res.data.data.openid
           });
 
           wx.showToast({ title: "登录成功" });
@@ -230,7 +253,7 @@ try{
       password: "",
       nickname: "",
       // 重置为默认头像
-      avatar: "/images/default-avatar.png"
+      avatar: "/images/1.png"
   });
     wx.showToast({ title: "退出登录",icon: "none"  });
   }

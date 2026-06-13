@@ -1,6 +1,6 @@
 <view class="add-box">
   <view class="user-card">
-    <image src="{{userInfo.avatar}}" class="avatar" ></image>
+    <image src="{{avaUrl}}" class="avatar" ></image>
     <text class="nickname">{{userInfo.nickname}}</text>
   </view>
     <!-- 🔥 补全：帖子类型下拉选择器（你缺失的核心UI） -->
