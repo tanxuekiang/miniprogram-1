@@ -1,4 +1,4 @@
-后端服务器部分模块再在https://github.com/tanxuekiang/Luntan
+后端服务器部分模块在https://github.com/tanxuekiang/Luntan
 
 
 <img width="355" height="668" alt="image" src="https://github.com/user-attachments/assets/127d9ff0-9eff-4336-a3e2-ccae1075d483" />
